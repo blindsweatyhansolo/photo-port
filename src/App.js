@@ -1,23 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+// This App.js file is the center of the application.
+// Think of App.js as the root component, or the wrapper component that 
+// houses all of the other components
 
+// React MUST BE imported in every component file
+import React from 'react';
+// import './App.css';
+import Nav from './components/Nav';
+import About from './components/About';
+
+// returns JSX (JS that can represent HTML)
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Nav />
+      <main>
+        <About />
+      </main>
     </div>
   );
 }
