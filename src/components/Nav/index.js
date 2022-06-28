@@ -1,55 +1,54 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { capitalizeFirstLetter } from "../../utils/helpers";
 
-const Nav = () => {
-  const categories = [
-    {
-      name: 'Commercial',
-      description: 'Photos of grocery stores, food trucks, and other commercial projects',
-    },
-    {
-      name: 'Portraits', 
-      description: 'Portraits of people in my life',
-    },
-    {
-      name: 'Food',
-      description: 'Delicious delicacies',
-    },
-    {
-      name: 'Landscape',
-      description: 'Fields, farmhouses, waterfalls, and the beauty of nature',
-    }
-  ];
+function Nav(props) {
+  const {
+    categories = [], 
+    setCurrentCategory, 
+    currentCategory,
+  } = props;
 
-  function categorySelected(name) {
-    console.log(`${name} clicked!`);
-  }
+  // useEffect takes two arguments: callback function and array with single element (currentCategory)
+  // if currentCategory changes, the component re-renders since the second arg directs the hook on
+  // changes to the value of this state
+  useEffect(() => {
+    document.title = capitalizeFirstLetter(currentCategory.name);
+  }, [currentCategory]);
 
   return (
-    <header>
+    <header className="flex-row px-1">
       <h2>
-        <a href="/">
-          <span role='img' aria-label='camera'>📸</span>Oh Snap!
+        <a data-testid="link" href="/">
+          <span role='img' aria-label='camera'>
+            {" "}
+            📸
+          </span>
+          {" "}
+          Oh Snap!
         </a>
       </h2>
       <nav>
         <ul className='flex-row'>
           <li className='mx-2'>
-            <a href="#about">
+            <a data-testid="about" href="#about">
               About Me
             </a>
           </li>
-          <li>
+          <li className="mx-2">
             <span>Contact</span>
           </li>
-          {
-            categories.map((category) => (
-              <li className="mx-1" key={category.name} >
-                <span onClick={() => categorySelected(category.name)} >
-                  {category.name}
-                </span>
-              </li>
-            ))
-          }
+          {categories.map((category) => (
+            <li className={`mx-1 ${
+              // if true, navActive will be returned (short circuit expression)
+              currentCategory.name === category.name && 'navActive'}`} 
+              key={category.name} >
+              <span onClick={() => {
+                setCurrentCategory(category);
+              }} >
+                {capitalizeFirstLetter(category.name)}
+              </span>
+            </li>
+          ))}
         </ul>
       </nav>
     </header>
