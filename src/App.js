@@ -10,8 +10,10 @@ import About from './components/About';
 import Gallery from './components/Gallery';
 import ContactForm from './components/Contact';
 
-// returns JSX (JS that can represent HTML)
 function App() {
+
+  const [contactSelected, setContactSelected] = useState(false);
+
   const [categories] = useState([
     {
       name: 'commercial',
@@ -33,18 +35,29 @@ function App() {
 
   const [currentCategory, setCurrentCategory] = useState(categories[0]);
 
-
+  // returns JSX (JS that can represent HTML)
   return (
     <div>
       <Nav 
       categories={categories}
       setCurrentCategory={setCurrentCategory}
       currentCategory={currentCategory}
+      contactSelected={contactSelected}
+      setContactSelected={setContactSelected}
       />
       <main>
-        <ContactForm />
-        <Gallery currentCategory={currentCategory} />
-        <About />
+        {/* if contact NOT is selected in nav, render Gallery and About */}
+        {!contactSelected ? (
+          // <> </> - REACT FRAGMENTS allow grouping of multiple elements
+          <>
+          <Gallery currentCategory={currentCategory} />
+          <About />
+          </>
+        ) : (
+          // ELSE render ContactForm
+          <ContactForm />
+        )}
+
       </main>
     </div>
   );

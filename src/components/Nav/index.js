@@ -6,6 +6,8 @@ function Nav(props) {
     categories = [], 
     setCurrentCategory, 
     currentCategory,
+    contactSelected,
+    setContactSelected
   } = props;
 
   // useEffect takes two arguments: callback function and array with single element (currentCategory)
@@ -30,20 +32,22 @@ function Nav(props) {
       <nav>
         <ul className='flex-row'>
           <li className='mx-2'>
-            <a data-testid="about" href="#about">
+            <a data-testid="about" href="#about" onClick={() => setContactSelected(false)}>
               About Me
             </a>
           </li>
-          <li className="mx-2">
-            <span>Contact</span>
+          <li className={`mx-2 ${contactSelected && 'navActive'}`}>
+            <span onClick={() => setContactSelected(true)}>Contact</span>
           </li>
           {categories.map((category) => (
             <li className={`mx-1 ${
-              // if true, navActive will be returned (short circuit expression)
-              currentCategory.name === category.name && 'navActive'}`} 
+              // if true and contactSelected false, 
+              // navActive will be returned (short circuit expression)
+              currentCategory.name === category.name && !contactSelected && 'navActive'}`} 
               key={category.name} >
               <span onClick={() => {
                 setCurrentCategory(category);
+                setContactSelected(false);
               }} >
                 {capitalizeFirstLetter(category.name)}
               </span>
